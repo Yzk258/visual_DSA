@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        :root {
+            --primary: #21469b;
+            --dark: #1a1a2e;
+            --text: #333;
+            --gray: #666;
+        }
+        body { 
+            font-family: 'PingFang SC', 'Segoe UI', system-ui, sans-serif; 
+            padding: 50px; 
+            line-height: 1.8; 
+            color: var(--text); 
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+        .hero { 
+            border-bottom: 2px solid #eee;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+        .hero h1 { 
+            font-size: 2.8em; 
+            color: var(--dark);
+            margin: 0;
+            letter-spacing: -1px;
+        }
+        .hero p { 
+            font-size: 1.2em; 
+            color: var(--gray); 
+            margin-top: 10px;
+        }
+        
+        h2 { 
+            color: var(--dark); 
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+
+        .content-section {
+            margin-bottom: 30px;
+        }
+
+        .quote {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            font-style: italic;
+            color: #555;
+            margin: 20px 0;
+            border-left: 4px solid #ccc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin-right: 5px;
+        }
+
+        .footer-note {
+            margin-top: 60px;
+            font-size: 0.9em;
+            color: #999;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>数据结构与算法可视化实验室</h1>
+        <p>Data Structures and Algorithms Visualization Project</p>
+    </header>
+
+    <section class="content-section">
+        <h2>项目初衷</h2>
+        <p>
+            程序设计之精髓，在于<strong>“数据结构 + 算法 = 程序”</strong>。
+            碍于数据结构概念之杂、内容较为抽象且各种诸如排序、查找一类的算法实现更是难以靠想象就能理解透彻的，
+            并且在学习《数据结构》的过程中，我们常被抽象的秩（Rank）、指针的跳转、以及复杂的动态扩容逻辑所困扰。
+            因此，本项目通过交互式的图形化界面，旨在将《数据结构（C++语言版）》中的抽象概念具象化，帮助学习者构建直观的模型思维。
+        </p>
+    </section>
+
+    <div class="quote">
+        “数据结构不是死记硬背的代码片段，而是组织信息的艺术。”
+    </div>
+
+    <section class="content-section">
+        <h2>核心模块导引</h2>
+        <p><span class="badge">线性结构</span> 重点关注<strong>向量 (Vector)</strong> 的静态空间分配与动态扩容机制，以及<strong>列表 (List)</strong> 基于逻辑次序的访问特性。理解 $O(1)$ 与 $O(n)$ 在不同场景下的性能权衡。</p>
+        
+        <p><span class="badge">半线性结构</span> 深入探讨<strong>树 (Tree)</strong> 与<strong>二叉树 (Binary Tree)</strong>。通过可视化观察先序、中序、后序遍历的递归与迭代实现，直观感知树的高度对算法效率的影响。</p>
+
+        <p><span class="badge">层级结构</span> 剖析<strong>堆 (Heap)</strong> 的上滤与下滤过程，理解优先级队列在 $O(\log n)$ 时间内维护极值的精妙之处。</p>
+        在不同模块下的子模块中，对于每一种数据结构还附有对应的学习笔记，主要记录数据结构对应的可实现算法以及各种接口等。读者可结合笔记操作可视化模块，更深一步增进自己的理解。
+    </section>
+
+    <section class="content-section">
+        <h2>前置知识与建议</h2>
+        <p>
+            探索本项目需要你具备一定的 C++ 基础及渐进复杂度分析能力。建议在观察可视化动画的同时，对照侧边栏提供的核心源码。
+            记住，理解算法的最佳方式是：<strong>手动追踪数据流向，直至它在你的脑海中“跑”起来。</strong>
+        </p>
+        <p>
+            渐进复杂度即大O函数，表示程序随着输入规模增大，其耗时和占用内存等性能的渐进增长趋势。
+            比如：一个简单的for循环语句，其渐进时间复杂度通常是O(n)。
+        </p>
+        <p>
+            对于cpp基础，只需了解基础的类、接口、类的指针即可。总之，即使你是cpp新手，通过数据结构学习cpp也是一种不错的选择!
+
+
+        </p>
+    </section>
+
+    <footer class="footer-note">
+        <p>由 Zachary Yin 开发 | 清华大学</p>
+        <p>最后更新：2026年3月29日</p>
+    </footer>
+</body>
+</html>
