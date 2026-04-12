@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -182,4 +183,190 @@
         render();
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>List Visualizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #27ae60; /* 列表建议用绿色，区分向量的蓝色 */
+            --node-bg: #fff;
+            --text: #2c3e50;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #fdfdfd;
+            color: var(--text);
+        }
+        /* 控制面板 */
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            align-items: center;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 80px;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        button:hover { opacity: 0.85; }
+        button.secondary { background: #95a5a6; }
+
+        /* 列表展示容器 */
+        .list-viewport {
+            display: flex;
+            align-items: center;
+            gap: 40px; /* 留出空间画箭头 */
+            padding: 40px 20px;
+            overflow-x: auto;
+            min-height: 200px;
+        }
+
+        /* 节点样式 */
+        .node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            animation: slideIn 0.4s ease-out;
+        }
+        .node-content {
+            width: 60px;
+            height: 60px;
+            background: var(--node-bg);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+        .node-label {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* 箭头连接线 */
+        .node:not(:last-child)::after {
+            content: '↔';
+            position: absolute;
+            right: -32px;
+            top: 18px;
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* 哨兵节点标识 */
+        .header-node .node-content, .trailer-node .node-content {
+            border-style: dashed;
+            background: #f1f1f1;
+            color: #999;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .info-card {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <input type="number" id="valInput" value="24" placeholder="数值">
+        <button onclick="insertHeader()">插入首部 insertAsFirst()</button>
+        <button onclick="insertTrailer()">插入尾部 insertAsLast()</button>
+        <button class="secondary" onclick="removeNode()">删除节点 remove()</button>
+    </div>
+
+    <div class="list-viewport" id="list-container">
+        </div>
+
+    <div class="info-card">
+        <strong>算法笔记：</strong>
+        <p id="status-text">列表（List）是动态存储策略，每个节点在物理上不一定连续。插入/删除仅需 $O(1)$ 时间修改指针。</p>
+    </div>
+
+    <script>
+        // 模拟双向链表，包含 header 和 trailer 哨兵节点
+        let listData = [10, 20];
+
+        function render() {
+            const container = document.getElementById('list-container');
+            container.innerHTML = '';
+
+            // 渲染 Header 哨兵
+            container.appendChild(createNode('header', 'Header'));
+
+            // 渲染实际数据节点
+            listData.forEach((val, index) => {
+                container.appendChild(createNode(val, `pNode ${index}`));
+            });
+
+            // 渲染 Trailer 哨兵
+            container.appendChild(createNode('trailer', 'Trailer'));
+        }
+
+        function createNode(val, label) {
+            const div = document.createElement('div');
+            div.className = `node ${typeof val === 'string' ? val + '-node' : ''}`;
+            div.innerHTML = `
+                <div class="node-content">${val === 'header' || val === 'trailer' ? '∅' : val}</div>
+                <div class="node-label">${label}</div>
+            `;
+            return div;
+        }
+
+        function insertHeader() {
+            const val = document.getElementById('valInput').value;
+            listData.unshift(val);
+            render();
+        }
+
+        function insertTrailer() {
+            const val = document.getElementById('valInput').value;
+            listData.push(val);
+            render();
+        }
+
+        function removeNode() {
+            if (listData.length > 0) {
+                listData.pop();
+                render();
+            }
+        }
+
+        // 初始渲染
+        render();
+    </script>
+</body>
+>>>>>>> 76f1ed82c28644ccbd09f7e374916ca99ba84e09
 </html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -221,4 +222,229 @@
         render();
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Graph Visualizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #c0392b; /* 图建议用深红色，代表其复杂与核心的地位 */
+            --node-bg: #fff;
+            --text: #2c3e50;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #fdfdfd;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* 控制面板 */
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100px;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        button:hover { opacity: 0.85; }
+        button.secondary { background: #95a5a6; }
+
+        /* SVG 画布 */
+        #graph-canvas {
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* 节点样式 */
+        .node-circle {
+            fill: var(--node-bg);
+            stroke: var(--primary);
+            stroke-width: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .node-circle:hover {
+            fill: #fdf2f0;
+            stroke-width: 5px;
+        }
+        .node-label {
+            fill: var(--text);
+            font-size: 14px;
+            font-weight: bold;
+            pointer-events: none; /* 防止文字干扰节点点击 */
+        }
+
+        /* 边（连线）样式 */
+        .edge-line {
+            stroke: #ccc;
+            stroke-width: 2px;
+            stroke-dasharray: 5, 5; /* 虚线代表无向图的关系 */
+            animation: dashLoop 1s linear infinite;
+        }
+        @keyframes dashLoop {
+            to { stroke-dashoffset: -10; }
+        }
+
+        .info-card {
+            margin: 40px auto;
+            padding: 20px;
+            background: #fdf8f8;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <input type="text" id="nodeName" placeholder="节点名称 (如 Alice)">
+        <button onclick="addVertex()">添加节点 Vertex</button>
+        <span style="color: #999;">|</span>
+        <input type="text" id="fromNode" placeholder="从 (ID)">
+        <input type="text" id="toNode" placeholder="到 (ID)">
+        <button class="secondary" onclick="addEdge()">添加无向边 Edge</button>
+    </div>
+
+    <svg id="graph-canvas">
+        <g id="edges-group"></g> <g id="nodes-group"></g> </svg>
+
+    <div class="info-card">
+        <strong>算法笔记：</strong>
+        <p id="status-text">图（Graph）由顶点（Vertex）和边（Edge）组成。多对多的非线性结构。此无向图演示了基本的拓扑连接，边以虚线动态展示。</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('graph-canvas');
+        const nodesGroup = document.getElementById('nodes-group');
+        const edgesGroup = document.getElementById('edges-group');
+        const statusText = document.getElementById('status-text');
+
+        // 图的数据结构：邻接表 (简易版)
+        let graphData = {
+            nodes: [
+                { id: 'A', name: 'Alice', x: 150, y: 150 },
+                { id: 'B', name: 'Bob', x: 300, y: 100 },
+                { id: 'C', name: 'Charlie', x: 250, y: 250 }
+            ],
+            edges: [
+                { from: 'A', to: 'B' },
+                { from: 'B', to: 'C' }
+            ]
+        };
+
+        function render() {
+            // 清空并重新渲染
+            nodesGroup.innerHTML = '';
+            edgesGroup.innerHTML = '';
+
+            // 1. 渲染边 (Edge)
+            graphData.edges.forEach(edge => {
+                const fromNode = graphData.nodes.find(n => n.id === edge.from);
+                const toNode = graphData.nodes.find(n => n.id === edge.to);
+                if (fromNode && toNode) {
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.setAttribute("class", "edge-line");
+                    line.setAttribute("x1", fromNode.x);
+                    line.setAttribute("y1", fromNode.y);
+                    line.setAttribute("x2", toNode.x);
+                    line.setAttribute("y2", toNode.y);
+                    edgesGroup.appendChild(line);
+                }
+            });
+
+            // 2. 渲染节点 (Vertex)
+            graphData.nodes.forEach(node => {
+                const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                g.setAttribute("transform", `translate(${node.x}, ${node.y})`);
+
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("class", "node-circle");
+                circle.setAttribute("r", "25");
+
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("class", "node-label");
+                text.setAttribute("dy", "5"); // 垂直居中修正
+                text.setAttribute("text-anchor", "middle"); // 水平居中
+                text.textContent = `${node.name} (${node.id})`;
+
+                g.appendChild(circle);
+                g.appendChild(text);
+                nodesGroup.appendChild(g);
+            });
+        }
+
+        // 添加节点
+        function addVertex() {
+            const name = document.getElementById('nodeName').value;
+            if (!name) return alert("请输入名称！");
+
+            const id = String.fromCharCode(65 + graphData.nodes.length); // 自动生成 ID: A, B, C...
+            // 随机坐标 (避开边缘)
+            const x = 100 + Math.random() * (canvas.clientWidth - 200);
+            const y = 100 + Math.random() * (canvas.clientHeight - 200);
+
+            graphData.nodes.push({ id, name, x, y });
+            render();
+            statusText.innerText = `顶点 ${name} (ID: ${id}) 已添加。`;
+        }
+
+        // 添加无向边
+        function addEdge() {
+            const from = document.getElementById('fromNode').value.toUpperCase();
+            const to = document.getElementById('toNode').value.toUpperCase();
+
+            if (from === to) return alert("自身不能连线！");
+
+            const fromExist = graphData.nodes.some(n => n.id === from);
+            const toExist = graphData.nodes.some(n => n.id === to);
+
+            if (!fromExist || !toExist) return alert("节点 ID 不存在！");
+
+            // 检查边是否已存在 (无向图需检查两个方向)
+            const edgeExist = graphData.edges.some(e => 
+                (e.from === from && e.to === to) || (e.from === to && e.to === from)
+            );
+
+            if (edgeExist) return alert("连接已存在！");
+
+            graphData.edges.push({ from, to });
+            render();
+            statusText.innerText = `边 (${from} ↔ ${to}) 已建立。`;
+        }
+
+        // 初始渲染
+        render();
+    </script>
+</body>
+>>>>>>> 76f1ed82c28644ccbd09f7e374916ca99ba84e09
 </html>

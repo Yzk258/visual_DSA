@@ -193,3 +193,198 @@ body {
     from { filter: drop-shadow(0 0 2px #007bff); }
     to { filter: drop-shadow(0 0 8px #007bff); }
 }
+/* 基础重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* 视口全高 */
+    overflow: hidden; /* 防止外层滚动，内部局部滚动 */
+}
+
+/* 顶部导航栏 */
+.top-navbar {
+    height: 60px;
+    background-color: #1a1a2e;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    z-index: 100;
+    border-bottom: 1px solid #30304d;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 内容容器 */
+.container {
+    display: flex;
+    flex: 1; /* 占据剩余高度 */
+}
+
+/* 侧边导航栏 - 全高实现关键 */
+.side-sidebar {
+    width: 240px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.section-title {
+    padding: 10px 20px;
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-menu li:not(.section-title) {
+    padding: 12px 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-menu li.active {
+    background-color: #e7f0ff;
+    color: #314255;
+    font-weight: bolder;
+    text-shadow: 0 0 3px #2d3b49;
+    border-right: 4px solid #314255;
+}
+
+.nav-menu li:hover:not(.active) {
+    background-color: #eeeeee;
+}
+
+/* 主展示区 */
+.main-content {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    overflow-y: auto; /* 内容过多时在主区滚动 */
+}
+
+#visualizer-canvas {
+    width: 100%;
+    height: 100%;
+    background: #fdfdfd;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    font-size: 0.8rem;
+    color: #aaa;
+    border-top: 1px solid #eee;
+}
+.main-content {
+    flex: 1;
+    padding: 0; /* 嵌入页面建议去掉 padding，让子页面控制边距 */
+    overflow: hidden;
+}
+
+#visualizer-container {
+    width: 100%;
+    height: 100%;
+}
+
+#main-frame {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: none;
+}
+
+/* 顶部菜单容器 */
+.top-menu {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* 增加间距 */
+}
+
+/* 链接样式优化 */
+.menu-item {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+/* 悬浮时变亮并有轻微背景色 */
+.menu-item:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+/* “联系作者”按钮重做 */
+.btn-contact {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px; /* 圆角矩形更现代 */
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s shadow;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-contact:hover {
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.5);
+    transform: scale(1.05);
+    transition: 0.5s;
+}
+
+.btn-contact:active {
+    transform: scale(0.98);
+}
+.logo i {
+    color: #007bff;
+    margin-right: 10px;
+    font-size: 1.4rem;
+    /* 增加一个持续的呼吸效果 */
+    animation: logo-glow 2s infinite alternate;
+}
+
+@keyframes logo-glow {
+    from { filter: drop-shadow(0 0 2px #007bff); }
+    to { filter: drop-shadow(0 0 8px #007bff); }
+}
