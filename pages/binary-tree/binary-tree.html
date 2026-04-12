@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Binary Tree Visualizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #9b59b6; /* 二叉树建议用紫色，代表其半线性结构的复杂美 */
+            --bg: #fdfdfd;
+            --line: #ccc;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: var(--bg);
+            text-align: center;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+        }
+        button:hover { opacity: 0.85; }
+
+        /* 树容器：使用 Flex 递归布局 */
+        .tree-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        /* 节点及其子树的包装器 */
+        .node-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* 单个节点圆圈 */
+        .node-circle {
+            width: 45px;
+            height: 45px;
+            background: #fff;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            z-index: 10;
+            transition: transform 0.3s;
+        }
+        .node-circle:hover {
+            transform: scale(1.2);
+            background: #f4e7fb;
+        }
+
+        /* 子节点容器 */
+        .children-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        /* 连接线逻辑（简单版：使用伪元素模拟） */
+        .children-container::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            width: 2px;
+            height: 20px;
+            background: var(--line);
+        }
+
+        .info-card {
+            margin: 40px auto;
+            padding: 20px;
+            background: #f9f6fb;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button onclick="resetTree()">重置根节点</button>
+        <span style="color: #888; font-size: 0.9rem; align-self: center;">提示：点击节点可添加子节点（左/右随机）</span>
+    </div>
+
+    <div id="tree-root-container" class="tree-container">
+        </div>
+
+    <div class="info-card">
+        <strong>算法笔记：</strong>
+        <p>二叉树（Binary Tree）中，每个节点最多有两个子节点。
+           它的深度（Depth）直接影响搜索效率。在可视化中，你可以观察递归是如何向下延伸的。</p>
+    </div>
+
+    <script>
+        // 简单的嵌套对象表示树
+        let treeData = {
+            val: 1,
+            left: { val: 2, left: null, right: null },
+            right: { val: 3, left: null, right: null }
+        };
+
+        function renderTree(node) {
+            if (!node) return '';
+
+            return `
+                <div class="node-wrapper">
+                    <div class="node-circle" onclick="addNode('${node.val}')">${node.val}</div>
+                    ${(node.left || node.right) ? `
+                        <div class="children-container">
+                            ${node.left ? renderTree(node.left) : '<div style="width:45px"></div>'}
+                            ${node.right ? renderTree(node.right) : '<div style="width:45px"></div>'}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function updateView() {
+            document.getElementById('tree-root-container').innerHTML = renderTree(treeData);
+        }
+
+        function addNode(parentVal) {
+            // 递归查找并添加节点
+            const findAndAdd = (root) => {
+                if (!root) return;
+                if (root.val == parentVal) {
+                    const newVal = Math.floor(Math.random() * 100);
+                    if (!root.left) root.left = { val: newVal, left: null, right: null };
+                    else if (!root.right) root.right = { val: newVal, left: null, right: null };
+                    else alert("此节点已满！");
+                    return;
+                }
+                findAndAdd(root.left);
+                findAndAdd(root.right);
+            };
+            findAndAdd(treeData);
+            updateView();
+        }
+
+        function resetTree() {
+            treeData = { val: 1, left: null, right: null };
+            updateView();
+        }
+
+        updateView();
+    </script>
+</body>
+</html>

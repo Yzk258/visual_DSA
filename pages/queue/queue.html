@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Queue Visualizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #f39c12; /* 队列建议用橙色，代表流动和等待 */
+            --bg: #fdfdfd;
+            --text: #2c3e50;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 50px;
+            align-items: center;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 80px;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        button:hover { opacity: 0.85; }
+        button.secondary { background: #95a5a6; }
+
+        /* 队列通道容器 */
+        .queue-container {
+            display: flex;
+            align-items: center;
+            height: 100px;
+            border-top: 3px solid #34495e;
+            border-bottom: 3px solid #34495e;
+            padding: 0 50px;
+            gap: 10px;
+            min-width: 600px;
+            position: relative;
+            background: #fff;
+        }
+
+        /* 队头和队尾的文字标识 */
+        .queue-container::before {
+            content: 'EXIT (Front)';
+            position: absolute;
+            left: -25px;
+            top: -25px;
+            font-size: 0.8rem;
+            color: #e67e22;
+            font-weight: bold;
+        }
+        .queue-container::after {
+            content: 'ENTRY (Rear)';
+            position: absolute;
+            right: -25px;
+            top: -25px;
+            font-size: 0.8rem;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        /* 队列元素样式 */
+        .queue-element {
+            width: 60px;
+            height: 60px;
+            background: #fff9f0;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary);
+            flex-shrink: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: enqueueAnim 0.4s ease-out;
+        }
+
+        /* 入队动画：从右侧划入 */
+        @keyframes enqueueAnim {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* 出队动画：向左侧飞出 */
+        .dequeueing {
+            animation: dequeueAnim 0.4s ease-in forwards;
+        }
+        @keyframes dequeueAnim {
+            to { opacity: 0; transform: translateX(-100px); }
+        }
+
+        .info-card {
+            margin-top: 60px;
+            padding: 20px;
+            background: #fcf8f2;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+            max-width: 800px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <input type="number" id="valInput" value="101" placeholder="数值">
+        <button onclick="enqueue()">入队 enqueue()</button>
+        <button class="secondary" onclick="dequeue()">出队 dequeue()</button>
+        <span style="margin-left: 20px;">Size: <span id="size-count">0</span></span>
+    </div>
+
+    <div class="queue-container" id="queue-view">
+        </div>
+
+    <div class="info-card">
+        <strong>算法笔记：</strong>
+        <p id="status-text">队列（Queue）是一种 FIFO（先进先出）结构。元素从队尾（Rear）插入，从队头（Front）删除。就像现实生活中的排队一样。</p>
+    </div>
+
+    <script>
+        let queueData = [10, 20, 30]; 
+
+        function render() {
+            const container = document.getElementById('queue-view');
+            container.innerHTML = ''; 
+
+            queueData.forEach((val) => {
+                const div = document.createElement('div');
+                div.className = 'queue-element';
+                div.innerText = val;
+                container.appendChild(div);
+            });
+            
+            document.getElementById('size-count').innerText = queueData.length;
+        }
+
+        function enqueue() {
+            const val = document.getElementById('valInput').value;
+            queueData.push(val); // 数组末尾即队尾
+            render();
+            document.getElementById('status-text').innerText = `元素 ${val} 从 Rear 入队。`;
+        }
+
+        function dequeue() {
+            if (queueData.length === 0) {
+                alert("队列已空！");
+                return;
+            }
+
+            const container = document.getElementById('queue-view');
+            const firstEl = container.firstChild; // 获取队头元素
+
+            // 1. 出队动画
+            firstEl.classList.add('dequeueing');
+
+            // 2. 动画后移除数据
+            setTimeout(() => {
+                const shiftedVal = queueData.shift(); // 数组头部即队头
+                render();
+                document.getElementById('status-text').innerText = `元素 ${shiftedVal} 从 Front 出队。下一个元素补位。`;
+            }, 400); 
+        }
+
+        // 初始渲染
+        render();
+    </script>
+</body>
+</html>     
