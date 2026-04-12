@@ -1,6 +1,8 @@
 ## 数据结构算法可视化
 **“探索底层逻辑，化抽象为具象。”**
-完整项目渲染链接👉：`https://yzk258.github.io/visual_DSA/`
+
+[👉完整项目渲染链接👈](https://yzk258.github.io/visual_DSA/)
+
 联系我👉：`yzk24@mails.tsinghua.edu.cn`
 
 ---
