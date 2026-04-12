@@ -248,14 +248,44 @@ body {
 .nav-menu {
     list-style: none;
     padding: 20px 0;
+    /* 设置一个固定高度，或者根据屏幕高度计算 */
+    height: 100vh;           /* 占满屏幕高度 */
+    overflow-y: auto;        /* 内容超出时自动显示垂直滚动条 */
+    overflow-x: hidden;      /* 隐藏水平滚动条，防止布局抖动 */
+    
+    /* 建议加上一些内边距，防止滚动条遮挡文字 */
+    padding-bottom: 50px;
+}
+/* 自定义滚动条整体 */
+.nav-menu::-webkit-scrollbar {
+    width: 6px;               /* 滚动条宽度 */
 }
 
+/* 滚动条轨道 */
+.nav-menu::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05); 
+}
+
+/* 滚动条滑块（那个可以拖动的小方块） */
+.nav-menu::-webkit-scrollbar-thumb {
+    background: #888;         /* 滑块颜色 */
+    border-radius: 10px;      /* 圆角 */
+}
+
+/* 滑块悬停时的颜色 */
+.nav-menu::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
 .section-title {
     padding: 10px 20px;
     font-size: 0.75rem;
     color: #888;
     text-transform: uppercase;
     letter-spacing: 1px;
+    position: sticky;
+    top: 0;
+    background-color: #fff; /* 必须设置背景色，否则文字会重叠 */
+    z-index: 10;
 }
 
 .nav-menu li:not(.section-title) {
