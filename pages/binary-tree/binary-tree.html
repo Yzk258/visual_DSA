@@ -2,19 +2,23 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Binary Tree Visualizer</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #9b59b6; /* 二叉树建议用紫色，代表其半线性结构的复杂美 */
-            --bg: #fdfdfd;
-            --line: #ccc;
+            --primary: #7a85d4;
+            --bg: var(--theme-page-bg);
+            --line: var(--theme-border);
         }
         body {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 30px;
             background-color: var(--bg);
+            color: var(--theme-text);
             text-align: center;
         }
         
@@ -55,7 +59,7 @@
         .node-circle {
             width: 45px;
             height: 45px;
-            background: #fff;
+            background: var(--theme-surface);
             border: 2px solid var(--primary);
             border-radius: 50%;
             display: flex;
@@ -67,7 +71,7 @@
         }
         .node-circle:hover {
             transform: scale(1.2);
-            background: #f4e7fb;
+            background: var(--theme-surface-soft);
         }
 
         /* 子节点容器 */
@@ -92,11 +96,11 @@
         .info-card {
             margin: 40px auto;
             padding: 20px;
-            background: #f9f6fb;
+            background: var(--theme-panel-bg);
             border-radius: 8px;
             border-left: 5px solid var(--primary);
             text-align: left;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: var(--theme-shadow);
         }
     </style>
 </head>

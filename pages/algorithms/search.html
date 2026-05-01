@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查找算法</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
+    <link rel="stylesheet" href="./algorithms.css">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>查找算法专题</h1>
+            <p>查找问题强调“数据是否有序”。线性查找通用，二分查找高效但要求有序并支持随机访问。</p>
+            <div class="tag-row">
+                <span class="tag">线性查找</span>
+                <span class="tag">二分查找</span>
+                <span class="tag">有序数组</span>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>快速对比</h2>
+            <table>
+                <thead>
+                    <tr><th>算法</th><th>前提</th><th>时间复杂度</th><th>典型场景</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>线性查找</td><td>无</td><td>O(n)</td><td>小数据、无序序列</td></tr>
+                    <tr><td>二分查找</td><td>有序</td><td>O(log n)</td><td>静态有序数组、边界定位</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="panel">
+            <h2>交互：二分查找过程</h2>
+            <div class="row">
+                <input id="arrInput" value="1,3,5,7,9,11,13,15" aria-label="有序数组">
+                <input id="targetInput" value="11" aria-label="目标值">
+                <button id="runSearch">查找</button>
+            </div>
+            <div class="output" id="searchOutput">等待输入...</div>
+        </section>
+
+        <p class="footer-note">常见算法 · 查找</p>
+    </main>
+
+    <script>
+        function binarySearchSteps(arr, target) {
+            let l = 0;
+            let r = arr.length - 1;
+            const steps = [];
+
+            while (l <= r) {
+                const mid = Math.floor((l + r) / 2);
+                steps.push(`l=${l}, r=${r}, mid=${mid}, arr[mid]=${arr[mid]}`);
+                if (arr[mid] === target) {
+                    return { index: mid, steps };
+                }
+                if (arr[mid] < target) l = mid + 1;
+                else r = mid - 1;
+            }
+            return { index: -1, steps };
+        }
+
+        document.getElementById('runSearch').addEventListener('click', () => {
+            const arr = document.getElementById('arrInput').value
+                .split(',')
+                .map(x => Number(x.trim()))
+                .filter(x => !Number.isNaN(x));
+            const target = Number(document.getElementById('targetInput').value);
+            const out = document.getElementById('searchOutput');
+
+            if (!arr.length || Number.isNaN(target)) {
+                out.textContent = '请输入合法数组与目标值。';
+                return;
+            }
+
+            const sorted = [...arr].sort((a, b) => a - b);
+            const result = binarySearchSteps(sorted, target);
+            out.textContent = `有序数组：${sorted.join(', ')}\n步骤：\n${result.steps.join('\n')}\n结果索引：${result.index}`;
+        });
+    </script>
+</body>
+</html>

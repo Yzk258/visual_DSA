@@ -2,17 +2,20 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heap Visualizer</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #d30094; /* 堆建议用深橙色，代表其沉稳的优先级特性 */
-            --bg: #fff;
+            --primary: #be4ab2;
+            --bg: var(--theme-page-bg);
         }
-        body { font-family: 'Segoe UI', sans-serif;margin: 0; padding: 30px; background: #fafafa; text-align: center; }
+        body { font-family: 'Segoe UI', sans-serif;margin: 0; padding: 30px; background: var(--bg); color: var(--theme-text); text-align: center; }
         
         .controls { display: flex; gap: 12px; justify-content: center; margin-bottom: 30px; }
-        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 60px; }
+        input { padding: 8px; border: 1px solid var(--theme-border); border-radius: 4px; width: 60px; background: var(--theme-surface); color: var(--theme-text); }
         button { padding: 8px 16px; border: none; border-radius: 4px; background: var(--primary); color: white; cursor: pointer; }
 
         /* 树形显示区域 */
@@ -21,7 +24,7 @@
         .node {
             width: 40px; height: 40px; border: 2px solid var(--primary);
             border-radius: 50%; display: flex; justify-content: center;
-            align-items: center; font-weight: bold; background: white;
+            align-items: center; font-weight: bold; background: var(--theme-surface);
             transition: all 0.5s; position: relative;
         }
         .node.swapping { background: #f1c40f; transform: scale(1.2); }
@@ -29,18 +32,18 @@
         /* 数组显示区域 */
         .array-visual {
             display: flex; justify-content: center; gap: 5px; 
-            padding: 20px; background: #eee; border-radius: 8px;
+            padding: 20px; background: var(--theme-panel-bg); border-radius: 8px;
             overflow-x: auto;
         }
         .cell {
             width: 45px; height: 45px; border: 1px solid #999;
-            background: white; display: flex; flex-direction: column;
+            background: var(--theme-surface); display: flex; flex-direction: column;
             justify-content: center; align-items: center; font-size: 0.9rem;
         }
         .cell .idx { font-size: 10px; color: #888; margin-top: 2px; }
         .cell.active { border: 2px solid var(--primary); background: #fff5e6; }
 
-        .info-card { margin: 40px auto; padding: 20px; background: #fff; border-radius: 8px; border-left: 5px solid var(--primary); text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .info-card { margin: 40px auto; padding: 20px; background: var(--theme-surface); border-radius: 8px; border-left: 5px solid var(--primary); text-align: left; box-shadow: var(--theme-shadow); }
     </style>
 </head>
 <body>

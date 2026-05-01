@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排序算法</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
+    <link rel="stylesheet" href="./algorithms.css">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>排序算法专题</h1>
+            <p>排序是算法学习的入门主线。这里聚焦经典比较排序，并从时间复杂度、稳定性与适用场景三个维度建立选择直觉。</p>
+            <div class="tag-row">
+                <span class="tag">比较排序</span>
+                <span class="tag">稳定性</span>
+                <span class="tag">分治思想</span>
+                <span class="tag">原地排序</span>
+            </div>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h3>冒泡排序 Bubble Sort</h3>
+                <p>相邻比较并交换，简单直观。最坏时间复杂度 O(n^2)，适合教学和小规模数据。</p>
+            </article>
+            <article class="card">
+                <h3>快速排序 Quick Sort</h3>
+                <p>基于分区，平均 O(n log n)，工程中极常用。枢轴选择会影响最坏情况。</p>
+            </article>
+            <article class="card">
+                <h3>归并排序 Merge Sort</h3>
+                <p>分治 + 合并，稳定排序，复杂度稳定 O(n log n)，但需要额外辅助空间。</p>
+            </article>
+            <article class="card">
+                <h3>堆排序 Heap Sort</h3>
+                <p>利用堆结构反复取最大值，时间 O(n log n)，原地排序但不稳定。</p>
+            </article>
+        </section>
+
+        <section class="panel">
+            <h2>复杂度对比</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>算法</th>
+                        <th>平均时间</th>
+                        <th>最坏时间</th>
+                        <th>空间复杂度</th>
+                        <th>稳定性</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>冒泡</td><td>O(n^2)</td><td>O(n^2)</td><td>O(1)</td><td>稳定</td></tr>
+                    <tr><td>快速</td><td>O(n log n)</td><td>O(n^2)</td><td>O(log n)</td><td>不稳定</td></tr>
+                    <tr><td>归并</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>稳定</td></tr>
+                    <tr><td>堆排</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td>不稳定</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="panel">
+            <h2>快速实验：一键排序</h2>
+            <div class="row">
+                <input id="sortInput" value="9,2,7,4,1,8" aria-label="输入数组">
+                <select id="sortMethod" aria-label="排序方法">
+                    <option value="asc">升序</option>
+                    <option value="desc">降序</option>
+                </select>
+                <button id="runSort">执行</button>
+            </div>
+            <div class="output" id="sortOutput">等待输入...</div>
+            <div class="code">提示：在真实工程里，通常优先使用库排序函数并传入比较器，而不是手写基础排序实现。</div>
+        </section>
+
+        <p class="footer-note">常见算法 · 排序</p>
+    </main>
+
+    <script>
+        const sortInput = document.getElementById('sortInput');
+        const sortMethod = document.getElementById('sortMethod');
+        const sortOutput = document.getElementById('sortOutput');
+
+        document.getElementById('runSort').addEventListener('click', () => {
+            const nums = sortInput.value.split(',').map(x => Number(x.trim())).filter(x => !Number.isNaN(x));
+            if (!nums.length) {
+                sortOutput.textContent = '请输入逗号分隔的数字，例如 3,1,4,1,5';
+                return;
+            }
+
+            nums.sort((a, b) => sortMethod.value === 'asc' ? a - b : b - a);
+            sortOutput.textContent = `排序结果：${nums.join(', ')}`;
+        });
+    </script>
+</body>
+</html>

@@ -2,34 +2,79 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="主页_dsa" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DSA主页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
-    <header class="top-navbar">
-        <div class="logo">
-            <i class="fas fa-code-branch"></i>
-            <span>Visual DSA Lab</span>
+    <div class="page-aurora" aria-hidden="true"></div>
+    <div class="page-grid-bg" aria-hidden="true"></div>
+    <div class="page-orbs" aria-hidden="true">
+        <span class="orb orb-a"></span>
+        <span class="orb orb-b"></span>
+        <span class="orb orb-c"></span>
+    </div>
+
+    <div id="intro-overlay" aria-hidden="false">
+        <div class="intro-grid"></div>
+        <div class="intro-noise"></div>
+        <div class="intro-content">
+            <p class="intro-tag">Yzk258 presents</p>
+            <h1 class="intro-title">Visual DSA Lab</h1>
+            <p class="intro-subtitle">Build • Visualize • Understand</p>
+            <div class="intro-progress" role="presentation">
+                <span class="intro-progress-bar"></span>
+            </div>
         </div>
+    </div>
+
+    <header class="top-navbar">
+        <div class="brand-group">
+            <div class="logo">
+                <i class="fas fa-code-branch"></i>
+                <span>Visual DSA Lab</span>
+            </div>
+            <p class="brand-subtitle">Data Structures Playground</p>
+        </div>
+
+        <div class="top-meta">
+            <span class="meta-pill"><i class="fas fa-signal"></i> Playground Online</span>
+            <span class="meta-pill" id="today-date"><i class="far fa-calendar"></i> --</span>
+        </div>
+
         <div class="top-menu">
+            <label class="theme-switch" for="theme-select">主题</label>
+            <select id="theme-select" class="theme-select" aria-label="主题切换">
+                <option value="ocean">Ocean</option>
+                <option value="graphite">Graphite</option>
+                <option value="sand">Sand</option>
+            </select>
             <a href="./pages/docs.html" class="menu-item">
-                <i class="fas fa-book"></i> 算法文档
+                <i class="fas fa-book"></i> 文档
             </a>
             <a href="https://github.com/Yzk258/visual_DSA" target="_blank" class="menu-item">
-                <i class="fab fa-github"></i> 源码仓库
+                <i class="fab fa-github"></i> 仓库
             </a>
-            <button href="https://github.com/Yzk258" target="_blank" class="btn-contact">
+            <a href="./pages/home.html" class="menu-item" data-page="./pages/home.html">
+                <i class="fas fa-map-signs"></i> 导览
+            </a>
+            <a href="https://github.com/Yzk258" target="_blank" class="btn-contact">
                 <i class="fas fa-envelope"></i> 联系作者
-            </button>
+            </a>
         </div>
     </header>
 
     <div class="container">
         <aside class="side-sidebar">
+            <div class="sidebar-head-card">
+                <h2>欢迎来到 DSA 实验台</h2>
+                <p>从线性结构到图算法，随点随看，边学边跑。</p>
+            </div>
+
             <ul class="nav-menu">
-                <li class="section-title" style="font-size: large; text-decoration: underline;">DSA主页</li>
-                <li class="active" data-page="./pages/home.html"><i class="fas fa-home"></i> 首页</li>
+                <li class="section-title">总览</li>
+                <li data-page="./pages/home.html"><i class="fas fa-map-signs"></i> 导览 <span class="item-badge">NEW</span></li>
                 
                 <li class="section-title">线性结构</li>
                 <li data-page="./pages/vector/vector.html"><i class="fas fa-arrows-alt-h"></i> 向量 Vector</li>
@@ -44,27 +89,125 @@
                 <li data-page="./pages/graph/graph.html"><i class="fas fa-project-graph"></i> 图 Graph</li>
 
                 <li class="section-title">常见算法</li>
-                <li ><i class="fas"></i> 排序</li>
-                <li ><i class="fas"></i></i> 查找</li>
-                <li ><i class="fas"></i></i> 滑动窗口</li>
-                <li ><i class="fas"></i></i> lcs</li>
-                <li ><i class="fas"></i></i> 矩形最大面积</li>
-                <li ><i class="fas"></i></i> 表达式求值</li>
+                <li data-page="./pages/algorithms/sorting.html"><i class="fas fa-sort"></i> 排序</li>
+                <li data-page="./pages/algorithms/search.html"><i class="fas fa-search"></i> 查找</li>
+                <li data-page="./pages/algorithms/sliding-window.html"><i class="fas fa-window-maximize"></i> 滑动窗口</li>
+                <li data-page="./pages/algorithms/lcs.html"><i class="fas fa-code-branch"></i> LCS</li>
+                <li data-page="./pages/algorithms/max-rectangle.html"><i class="fas fa-border-all"></i> 矩形最大面积</li>
+                <li data-page="./pages/algorithms/expression-eval.html"><i class="fas fa-square-root-variable"></i> 表达式求值</li>
                  
 
                 <li class="section-title">常见问题</li>
-                <li><i class="fas fa-question-circle"></i> 待添加</li>
+                <li><i class="fas fa-question-circle"></i> 待添加 <span class="item-badge mute">SOON</span></li>
             </ul>
             
             <div class="sidebar-footer">
-                <p>v1.0.0 @ 2026</p>
+                <p>Visual DSA Lab v1.1.0</p>
+                <p>Made for interactive learning</p>
             </div>
         </aside>
 
         <main class="main-content">
-            <div id="visualizer-container">
-                <iframe id="main-frame" src="./pages/home.html" frameborder="0"></iframe>
-            </div>
+            <section class="landing-panel">
+                <div class="landing-hero">
+                    <div class="landing-copy">
+                        <p class="landing-kicker">Standalone Navigation</p>
+                        <h2>从这里进入整个 DSA 实验台</h2>
+                        <p>
+                            主页不再承载子页面内容，而是作为一个更清晰的导览入口。你可以按结构、按算法、按专题直接跳转到独立页面。
+                        </p>
+                        <div class="landing-actions">
+                            <a href="./pages/home.html" class="landing-action primary">
+                                <i class="fas fa-map-signs"></i> 打开导览页
+                            </a>
+                            <a href="./pages/vector/vector.html" class="landing-action">
+                                <i class="fas fa-play"></i> 从 Vector 开始
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="landing-highlights" aria-label="页面特性">
+                        <div class="highlight-chip">
+                            <span>Direct</span>
+                            <strong>跳转式导航</strong>
+                        </div>
+                        <div class="highlight-chip">
+                            <span>Theme</span>
+                            <strong>三套主题同步</strong>
+                        </div>
+                        <div class="highlight-chip">
+                            <span>Motion</span>
+                            <strong>开场动画独立控制</strong>
+                        </div>
+                        <div class="highlight-chip">
+                            <span>Return</span>
+                            <strong>子页一键返回</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="landing-stats" aria-label="实验台概览">
+                    <article class="stat-card accent-a">
+                        <span class="stat-label">线性结构</span>
+                        <strong>Vector / List / Stack / Queue</strong>
+                        <p>适合先建立数组、链表和栈队列的统一认知。</p>
+                    </article>
+                    <article class="stat-card accent-b">
+                        <span class="stat-label">树与图</span>
+                        <strong>Binary Tree / Heap / Graph</strong>
+                        <p>从层次结构到关系网络，关注节点连接与遍历策略。</p>
+                    </article>
+                    <article class="stat-card accent-c">
+                        <span class="stat-label">算法专题</span>
+                        <strong>排序 / 查找 / DP / 滑窗</strong>
+                        <p>配合图形化说明，快速理解常见算法模式和复杂度。</p>
+                    </article>
+                </div>
+
+                <div class="landing-grid">
+                    <a href="./pages/vector/vector.html" class="landing-card">
+                        <h3>线性结构</h3>
+                        <p>先处理顺序存储，再切到链式结构和受限访问结构。</p>
+                    </a>
+                    <a href="./pages/binary-tree/binary-tree.html" class="landing-card">
+                        <h3>树与堆</h3>
+                        <p>通过遍历、上滤和图连接，建立分层与网络的思维框架。</p>
+                    </a>
+                    <a href="./pages/algorithms/sorting.html" class="landing-card">
+                        <h3>算法专题</h3>
+                        <p>排序、查找、滑窗、LCS 等专题按学习路径串联在一起。</p>
+                    </a>
+                    <a href="./pages/home.html" class="landing-card">
+                        <h3>项目导览</h3>
+                        <p>先看总览，再按模块进入，适合快速熟悉整个项目结构。</p>
+                    </a>
+                </div>
+
+                <div class="landing-paths">
+                    <div class="path-panel">
+                        <h3>推荐路径</h3>
+                        <ol>
+                            <li>从导览页了解模块分布</li>
+                            <li>按线性结构完成基础认知</li>
+                            <li>进入树、堆、图理解层级关系</li>
+                            <li>最后回到算法专题做串联复盘</li>
+                        </ol>
+                    </div>
+                    <div class="path-panel path-panel--soft">
+                        <h3>本页说明</h3>
+                        <p>
+                            当前首页只保留入口、摘要和学习建议，不再嵌入任何子页面，避免视觉信息过载。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="landing-footer">
+                    <p>建议先从导览页建立整体认知，再按结构分类逐步进入具体页面。</p>
+                    <a href="./pages/docs.html" class="landing-footer-link">
+                        <i class="fas fa-book"></i> 阅读文档
+                    </a>
+                </div>
+            </section>
         </main>
     </div>
 

@@ -2,12 +2,15 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./theme.css">
+    <script src="./theme-bridge.js"></script>
     <style>
         :root {
-            --primary: #21469b;
-            --dark: #1a1a2e;
-            --text: #333;
-            --gray: #666;
+            --primary: var(--theme-primary);
+            --dark: var(--theme-text);
+            --text: var(--theme-text);
+            --gray: var(--theme-muted);
         }
         body { 
             font-family: 'PingFang SC', 'Segoe UI', system-ui, sans-serif; 
@@ -16,10 +19,10 @@
             color: var(--text); 
             max-width: 900px;
             margin: 0 auto;
-            background-color: #fff;
+            background-color: var(--theme-page-bg);
         }
         .hero { 
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid var(--theme-border);
             padding-bottom: 30px;
             margin-bottom: 40px;
         }
@@ -46,14 +49,93 @@
             margin-bottom: 30px;
         }
 
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .info-card {
+            background: var(--theme-surface);
+            border: 1px solid var(--theme-border);
+            border-radius: 10px;
+            padding: 14px;
+            box-shadow: var(--theme-shadow);
+        }
+
+        .info-card h3 {
+            margin: 0;
+            font-size: 1.02rem;
+            color: var(--dark);
+        }
+
+        .info-card p {
+            margin: 8px 0 0;
+            color: var(--gray);
+            line-height: 1.65;
+            font-size: 0.94rem;
+        }
+
+        .path-list {
+            margin-top: 10px;
+            padding-left: 18px;
+            color: var(--text);
+        }
+
+        .path-list li {
+            margin: 8px 0;
+        }
+
+        .term-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .term-table th,
+        .term-table td {
+            border: 1px solid var(--theme-border);
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .term-table th {
+            background: var(--theme-surface-soft);
+            color: var(--dark);
+        }
+
+        .sub-note {
+            margin-top: 10px;
+            color: var(--gray);
+            font-size: 0.94rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.04rem;
+            }
+        }
+
         .quote {
-            background: #f8f9fa;
+            background: var(--theme-surface-soft);
             padding: 20px;
             border-radius: 8px;
             font-style: italic;
-            color: #555;
+            color: var(--theme-muted);
             margin: 20px 0;
-            border-left: 4px solid #ccc;
+            border-left: 4px solid var(--theme-border);
         }
 
         .badge {
@@ -69,9 +151,9 @@
         .footer-note {
             margin-top: 60px;
             font-size: 0.9em;
-            color: #999;
+            color: var(--theme-muted);
             text-align: center;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--theme-border);
             padding-top: 20px;
         }
     </style>
@@ -107,6 +189,28 @@
     </section>
 
     <section class="content-section">
+        <h2>快速上手建议</h2>
+        <div class="card-grid">
+            <article class="info-card">
+                <h3>01 先看结构</h3>
+                <p>先在左侧导航依次体验 Vector、List、Stack、Queue，建立线性结构的统一认知框架。</p>
+            </article>
+            <article class="info-card">
+                <h3>02 再看过程</h3>
+                <p>进入 Tree、Heap、Graph，重点观察节点关系变化与每一步操作的前后状态。</p>
+            </article>
+            <article class="info-card">
+                <h3>03 连接算法</h3>
+                <p>进入常见算法模块，把“结构行为”映射到排序、查找、DP、单调栈等问题模式。</p>
+            </article>
+            <article class="info-card">
+                <h3>04 反推代码</h3>
+                <p>观察动画后回到源码，尝试解释每个指针/索引更新语句为什么必须这样写。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="content-section">
         <h2>前置知识与建议</h2>
         <p>
             探索本项目需要你具备一定的 C++ 基础及渐进复杂度分析能力。建议在观察可视化动画的同时，对照侧边栏提供的核心源码。
@@ -123,9 +227,73 @@
         </p>
     </section>
 
+    <section class="content-section">
+        <h2>推荐学习路线</h2>
+        <ol class="path-list">
+            <li><strong>阶段 A（基础）</strong>：Vector → List → Stack → Queue，目标是掌握线性结构与基本复杂度分析。</li>
+            <li><strong>阶段 B（树与堆）</strong>：Binary Tree → Heap，目标是理解分层结构与 O(log n) 操作机制。</li>
+            <li><strong>阶段 C（图与算法）</strong>：Graph + 常见算法专题，目标是建立“数据结构服务算法策略”的整体观。</li>
+            <li><strong>阶段 D（复盘）</strong>：挑选 2~3 个模块手写核心接口与测试，形成可迁移的工程能力。</li>
+        </ol>
+        <p class="sub-note">建议每个阶段都用“画图解释 + 代码复现 + 复杂度复盘”三步闭环学习。</p>
+    </section>
+
+    <section class="content-section">
+        <h2>术语速查</h2>
+        <table class="term-table">
+            <thead>
+                <tr>
+                    <th>术语</th>
+                    <th>一句话解释</th>
+                    <th>在本项目里的对应场景</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Rank / Index</td>
+                    <td>元素在逻辑序列中的位置编号。</td>
+                    <td>Vector、List 的插入和删除位置。</td>
+                </tr>
+                <tr>
+                    <td>Sift Up / Sift Down</td>
+                    <td>堆中通过交换维护堆序的核心操作。</td>
+                    <td>Heap 的入堆与出堆过程。</td>
+                </tr>
+                <tr>
+                    <td>Traversal</td>
+                    <td>按某种规则访问结构中全部节点。</td>
+                    <td>Binary Tree 的先序、中序、后序遍历。</td>
+                </tr>
+                <tr>
+                    <td>Amortized Complexity</td>
+                    <td>均摊复杂度，关注多次操作的平均代价。</td>
+                    <td>Vector 扩容后的整体插入成本分析。</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="content-section">
+        <h2>版本规划与后续方向</h2>
+        <div class="card-grid">
+            <article class="info-card">
+                <h3>可视化增强</h3>
+                <p>补充更多动画状态标记，例如比较次数、交换次数、访问路径高亮。</p>
+            </article>
+            <article class="info-card">
+                <h3>算法专题深化</h3>
+                <p>在常见算法中增加更完整的题型模板，配套输入输出示例与复杂度备注。</p>
+            </article>
+            <article class="info-card">
+                <h3>学习任务系统</h3>
+                <p>增加“闯关式练习”，将每个模块拆解为可验证的学习里程碑。</p>
+            </article>
+        </div>
+    </section>
+
     <footer class="footer-note">
         <p>由 Zachary Yin 开发 | 清华大学</p>
-        <p>最后更新：2026年3月29日</p>
+        <p>最后更新：2026年4月26日</p>
     </footer>
 </body>
 </html>

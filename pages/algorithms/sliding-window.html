@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滑动窗口</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
+    <link rel="stylesheet" href="./algorithms.css">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>滑动窗口专题</h1>
+            <p>滑动窗口把双重循环优化成单层移动过程，核心思想是“右扩张、左收缩”，把许多 O(n^2) 问题优化到 O(n)。</p>
+            <div class="tag-row">
+                <span class="tag">双指针</span>
+                <span class="tag">固定窗口</span>
+                <span class="tag">可变窗口</span>
+            </div>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h3>固定窗口</h3>
+                <p>例如长度为 k 的子数组最大和。进入一个元素，同时移出一个元素，窗口大小恒定。</p>
+            </article>
+            <article class="card">
+                <h3>可变窗口</h3>
+                <p>例如最短覆盖子串。右指针推进扩张，满足条件后左指针收缩。</p>
+            </article>
+        </section>
+
+        <section class="panel">
+            <h2>交互：固定长度窗口最大和</h2>
+            <div class="row">
+                <input id="numsInput" value="2,1,5,1,3,2" aria-label="数组">
+                <input id="kInput" value="3" aria-label="窗口大小 k">
+                <button id="runWindow">计算</button>
+            </div>
+            <div class="output" id="windowOutput">等待输入...</div>
+            <div class="code">时间复杂度 O(n)，空间复杂度 O(1)。</div>
+        </section>
+
+        <p class="footer-note">常见算法 · 滑动窗口</p>
+    </main>
+
+    <script>
+        function maxWindowSum(nums, k) {
+            if (k <= 0 || k > nums.length) return null;
+            let sum = 0;
+            for (let i = 0; i < k; i++) sum += nums[i];
+            let best = sum;
+            let bestRange = [0, k - 1];
+
+            for (let r = k; r < nums.length; r++) {
+                sum += nums[r] - nums[r - k];
+                if (sum > best) {
+                    best = sum;
+                    bestRange = [r - k + 1, r];
+                }
+            }
+            return { best, bestRange };
+        }
+
+        document.getElementById('runWindow').addEventListener('click', () => {
+            const nums = document.getElementById('numsInput').value
+                .split(',')
+                .map(x => Number(x.trim()))
+                .filter(x => !Number.isNaN(x));
+            const k = Number(document.getElementById('kInput').value);
+            const out = document.getElementById('windowOutput');
+
+            const result = maxWindowSum(nums, k);
+            if (!result) {
+                out.textContent = '请输入有效的 k（1 <= k <= 数组长度）。';
+                return;
+            }
+
+            out.textContent = `最大和：${result.best}\n区间：[${result.bestRange[0]}, ${result.bestRange[1]}]`;
+        });
+    </script>
+</body>
+</html>

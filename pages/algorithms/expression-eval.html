@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表达式求值</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
+    <link rel="stylesheet" href="./algorithms.css">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>表达式求值专题</h1>
+            <p>经典解法是“中缀转后缀 + 后缀计算”，本质依赖栈结构。这里实现支持 +、-、*、/ 与括号。</p>
+            <div class="tag-row">
+                <span class="tag">栈</span>
+                <span class="tag">中缀转后缀</span>
+                <span class="tag">运算符优先级</span>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>交互：输入表达式</h2>
+            <div class="row">
+                <input id="expInput" value="(3+5)*2-4/2" aria-label="表达式">
+                <button id="runEval">计算</button>
+            </div>
+            <div class="output" id="evalOutput">等待输入...</div>
+        </section>
+
+        <section class="panel">
+            <h2>注意</h2>
+            <div class="code">- 仅支持数字和 + - * / ( )
+- 默认按实数计算
+- 若要扩展为幂运算或一元负号，需要额外词法处理</div>
+        </section>
+
+        <p class="footer-note">常见算法 · 表达式求值</p>
+    </main>
+
+    <script>
+        function precedence(op) {
+            if (op === '+' || op === '-') return 1;
+            if (op === '*' || op === '/') return 2;
+            return 0;
+        }
+
+        function infixToPostfix(expr) {
+            const output = [];
+            const ops = [];
+            let number = '';
+
+            function flushNumber() {
+                if (number) {
+                    output.push(number);
+                    number = '';
+                }
+            }
+
+            for (const ch of expr.replace(/\s+/g, '')) {
+                if (/\d|\./.test(ch)) {
+                    number += ch;
+                } else if ('+-*/'.includes(ch)) {
+                    flushNumber();
+                    while (ops.length && precedence(ops[ops.length - 1]) >= precedence(ch)) {
+                        output.push(ops.pop());
+                    }
+                    ops.push(ch);
+                } else if (ch === '(') {
+                    flushNumber();
+                    ops.push(ch);
+                } else if (ch === ')') {
+                    flushNumber();
+                    while (ops.length && ops[ops.length - 1] !== '(') {
+                        output.push(ops.pop());
+                    }
+                    if (!ops.length) throw new Error('括号不匹配');
+                    ops.pop();
+                } else {
+                    throw new Error('包含非法字符');
+                }
+            }
+            flushNumber();
+            while (ops.length) {
+                const op = ops.pop();
+                if (op === '(') throw new Error('括号不匹配');
+                output.push(op);
+            }
+            return output;
+        }
+
+        function evalPostfix(tokens) {
+            const st = [];
+            for (const tk of tokens) {
+                if (!Number.isNaN(Number(tk))) {
+                    st.push(Number(tk));
+                } else {
+                    const b = st.pop();
+                    const a = st.pop();
+                    if (a === undefined || b === undefined) throw new Error('表达式不合法');
+                    if (tk === '+') st.push(a + b);
+                    else if (tk === '-') st.push(a - b);
+                    else if (tk === '*') st.push(a * b);
+                    else if (tk === '/') st.push(a / b);
+                }
+            }
+            if (st.length !== 1) throw new Error('表达式不合法');
+            return st[0];
+        }
+
+        document.getElementById('runEval').addEventListener('click', () => {
+            const expr = document.getElementById('expInput').value;
+            const out = document.getElementById('evalOutput');
+            try {
+                const postfix = infixToPostfix(expr);
+                const value = evalPostfix(postfix);
+                out.textContent = `后缀式：${postfix.join(' ')}\n结果：${value}`;
+            } catch (err) {
+                out.textContent = `错误：${err.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

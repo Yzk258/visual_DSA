@@ -2,19 +2,22 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List Visualizer</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #27ae60; /* 列表建议用绿色，区分向量的蓝色 */
-            --node-bg: #fff;
-            --text: #2c3e50;
+            --primary: #3ea57d;
+            --node-bg: var(--theme-surface);
+            --text: var(--theme-text);
         }
         body {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 30px;
-            background-color: #fdfdfd;
+            background-color: var(--theme-page-bg);
             color: var(--text);
         }
         /* 控制面板 */
@@ -26,9 +29,11 @@
         }
         input {
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--theme-border);
             border-radius: 4px;
             width: 80px;
+            background: var(--theme-surface);
+            color: var(--theme-text);
         }
         button {
             padding: 8px 16px;
@@ -40,7 +45,7 @@
             font-weight: 500;
         }
         button:hover { opacity: 0.85; }
-        button.secondary { background: #95a5a6; }
+        button.secondary { background: var(--theme-muted); }
 
         /* 列表展示容器 */
         .list-viewport {
@@ -76,7 +81,7 @@
         .node-label {
             margin-top: 10px;
             font-size: 0.8rem;
-            color: #888;
+            color: var(--theme-muted);
         }
 
         /* 箭头连接线 */
@@ -93,8 +98,8 @@
         /* 哨兵节点标识 */
         .header-node .node-content, .trailer-node .node-content {
             border-style: dashed;
-            background: #f1f1f1;
-            color: #999;
+            background: var(--theme-surface-soft);
+            color: var(--theme-muted);
         }
 
         @keyframes slideIn {
@@ -105,10 +110,10 @@
         .info-card {
             margin-top: 30px;
             padding: 20px;
-            background: #f8f9fa;
+            background: var(--theme-panel-bg);
             border-radius: 8px;
             border-left: 5px solid var(--primary);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: var(--theme-shadow);
         }
     </style>
 </head>

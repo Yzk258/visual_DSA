@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCS 最长公共子序列</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
+    <link rel="stylesheet" href="./algorithms.css">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>LCS（最长公共子序列）</h1>
+            <p>LCS 是动态规划经典问题。状态定义为 dp[i][j]：字符串 A 前 i 个字符与 B 前 j 个字符的 LCS 长度。</p>
+            <div class="tag-row">
+                <span class="tag">动态规划</span>
+                <span class="tag">二维状态</span>
+                <span class="tag">路径回溯</span>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>状态转移</h2>
+            <div class="code">if A[i-1] === B[j-1]: dp[i][j] = dp[i-1][j-1] + 1
+else: dp[i][j] = max(dp[i-1][j], dp[i][j-1])</div>
+        </section>
+
+        <section class="panel">
+            <h2>交互：计算 LCS 长度</h2>
+            <div class="row">
+                <input id="aInput" value="ABCBDAB" aria-label="字符串 A">
+                <input id="bInput" value="BDCABA" aria-label="字符串 B">
+                <button id="runLcs">计算</button>
+            </div>
+            <div class="output" id="lcsOutput">等待输入...</div>
+        </section>
+
+        <p class="footer-note">常见算法 · LCS</p>
+    </main>
+
+    <script>
+        function lcsLength(a, b) {
+            const n = a.length;
+            const m = b.length;
+            const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
+
+            for (let i = 1; i <= n; i++) {
+                for (let j = 1; j <= m; j++) {
+                    if (a[i - 1] === b[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
+                    else dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+            return { len: dp[n][m], dp };
+        }
+
+        function formatDp(dp, a, b) {
+            const maxRows = Math.min(dp.length, 8);
+            const maxCols = Math.min(dp[0].length, 8);
+            let lines = ['DP 矩阵预览（截断）:'];
+            for (let i = 0; i < maxRows; i++) {
+                lines.push(dp[i].slice(0, maxCols).join(' '));
+            }
+            lines.push(`A=${a}, B=${b}`);
+            return lines.join('\n');
+        }
+
+        document.getElementById('runLcs').addEventListener('click', () => {
+            const a = document.getElementById('aInput').value.trim();
+            const b = document.getElementById('bInput').value.trim();
+            const out = document.getElementById('lcsOutput');
+            if (!a || !b) {
+                out.textContent = '两个字符串都不能为空。';
+                return;
+            }
+            const result = lcsLength(a, b);
+            out.textContent = `LCS 长度：${result.len}\n${formatDp(result.dp, a, b)}`;
+        });
+    </script>
+</body>
+</html>

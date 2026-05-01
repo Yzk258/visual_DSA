@@ -2,13 +2,16 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Queue Visualizer</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #f39c12; /* 队列建议用橙色，代表流动和等待 */
-            --bg: #fdfdfd;
-            --text: #2c3e50;
+            --primary: #d18a2a;
+            --bg: var(--theme-page-bg);
+            --text: var(--theme-text);
         }
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -26,9 +29,11 @@
         }
         input {
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--theme-border);
             border-radius: 4px;
             width: 80px;
+            background: var(--theme-surface);
+            color: var(--theme-text);
         }
         button {
             padding: 8px 16px;
@@ -40,7 +45,7 @@
             font-weight: 500;
         }
         button:hover { opacity: 0.85; }
-        button.secondary { background: #95a5a6; }
+        button.secondary { background: var(--theme-muted); }
 
         /* 队列通道容器 */
         .queue-container {
@@ -53,7 +58,7 @@
             gap: 10px;
             min-width: 600px;
             position: relative;
-            background: #fff;
+            background: var(--theme-surface);
         }
 
         /* 队头和队尾的文字标识 */
@@ -111,11 +116,18 @@
         .info-card {
             margin-top: 60px;
             padding: 20px;
-            background: #fcf8f2;
+            background: var(--theme-panel-bg);
             border-radius: 8px;
             border-left: 5px solid var(--primary);
             max-width: 800px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            box-shadow: var(--theme-shadow);
+        }
+
+        @media (max-width: 768px) {
+            .queue-container {
+                min-width: 0;
+                padding: 0 20px;
+            }
         }
     </style>
 </head>

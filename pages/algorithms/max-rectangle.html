@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>矩形最大面积</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
+    <link rel="stylesheet" href="./algorithms.css">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>柱状图矩形最大面积</h1>
+            <p>这是单调栈代表题。维护“高度递增索引栈”，当遇到更矮柱子时持续出栈并计算以出栈柱为高的最大宽度。</p>
+            <div class="tag-row">
+                <span class="tag">单调栈</span>
+                <span class="tag">边界计算</span>
+                <span class="tag">O(n)</span>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>交互：计算最大面积</h2>
+            <div class="row">
+                <input id="histInput" value="2,1,5,6,2,3" aria-label="柱状图高度">
+                <button id="runRect">计算</button>
+            </div>
+            <div class="output" id="rectOutput">等待输入...</div>
+        </section>
+
+        <section class="panel">
+            <h2>核心思路</h2>
+            <div class="code">for i in [0..n] (末尾补0):
+  while stack 非空 且 heights[stack.top] > heights[i]:
+    h = heights[stack.pop]
+    left = stack.top (若空则 -1)
+    width = i - left - 1
+    ans = max(ans, h * width)
+  stack.push(i)</div>
+        </section>
+
+        <p class="footer-note">常见算法 · 矩形最大面积</p>
+    </main>
+
+    <script>
+        function largestRectangleArea(heights) {
+            const arr = [...heights, 0];
+            const stack = [];
+            let ans = 0;
+            const logs = [];
+
+            for (let i = 0; i < arr.length; i++) {
+                while (stack.length && arr[stack[stack.length - 1]] > arr[i]) {
+                    const top = stack.pop();
+                    const h = arr[top];
+                    const left = stack.length ? stack[stack.length - 1] : -1;
+                    const width = i - left - 1;
+                    const area = h * width;
+                    ans = Math.max(ans, area);
+                    logs.push(`弹出高度 ${h}, 宽度 ${width}, 面积 ${area}`);
+                }
+                stack.push(i);
+            }
+            return { ans, logs };
+        }
+
+        document.getElementById('runRect').addEventListener('click', () => {
+            const nums = document.getElementById('histInput').value
+                .split(',')
+                .map(x => Number(x.trim()))
+                .filter(x => !Number.isNaN(x) && x >= 0);
+            const out = document.getElementById('rectOutput');
+            if (!nums.length) {
+                out.textContent = '请输入非负整数数组。';
+                return;
+            }
+            const res = largestRectangleArea(nums);
+            out.textContent = `最大面积：${res.ans}\n关键过程：\n${res.logs.slice(0, 8).join('\n')}`;
+        });
+    </script>
+</body>
+</html>

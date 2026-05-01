@@ -2,13 +2,16 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stack Visualizer</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #e74c3c; /* 栈建议用红色，醒目且带有“警示”意味着操作受限 */
-            --bg: #fdfdfd;
-            --text: #2c3e50;
+            --primary: #d65a4a;
+            --bg: var(--theme-page-bg);
+            --text: var(--theme-text);
         }
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -32,9 +35,11 @@
         }
         input {
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--theme-border);
             border-radius: 4px;
             width: 80px;
+            background: var(--theme-surface);
+            color: var(--theme-text);
         }
         button {
             padding: 8px 16px;
@@ -46,7 +51,7 @@
             font-weight: 500;
         }
         button:hover { opacity: 0.85; }
-        button.secondary { background: #95a5a6; }
+        button.secondary { background: var(--theme-muted); }
 
         /* 栈的“桶”状容器 */
         .stack-container {
@@ -60,8 +65,8 @@
             padding: 10px;
             gap: 5px;
             position: relative;
-            background: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: var(--theme-surface);
+            box-shadow: var(--theme-shadow);
         }
 
         /* 单个栈元素样式 */
@@ -109,12 +114,12 @@
         .info-card {
             margin-top: 40px;
             padding: 20px;
-            background: #f8f9fa;
+            background: var(--theme-panel-bg);
             border-radius: 8px;
             border-left: 5px solid var(--primary);
             width: 100%;
             margin: 40px auto;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: var(--theme-shadow);
         }
     </style>
 </head>

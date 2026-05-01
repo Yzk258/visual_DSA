@@ -2,14 +2,17 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vector Visualizer</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #007bff;
-            --bg: #ffffff;
+            --primary: #3e8fe5;
+            --bg: var(--theme-page-bg);
             --box-border: #333;
-            --text: #2c3e50;
+            --text: var(--theme-text);
         }
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -29,9 +32,11 @@
         }
         input {
             padding: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid var(--theme-border);
             border-radius: 4px;
             width: 60px;
+            background: var(--theme-surface);
+            color: var(--theme-text);
         }
         button {
             padding: 8px 15px;
@@ -43,7 +48,7 @@
             transition: opacity 0.2s;
         }
         button:hover { opacity: 0.9; }
-        button.secondary { background: #6c757d; }
+        button.secondary { background: var(--theme-muted); }
 
         /* 向量容器 */
         .vector-container {
@@ -52,9 +57,11 @@
             margin: auto;
             min-height: 150px;
             padding: 20px;
-            border: 1px solid #eee;
+            border: 1px solid var(--theme-border);
             border-radius: 8px;
             position: relative;
+            background: var(--theme-surface);
+            box-shadow: var(--theme-shadow);
         }
 
         /* 单个元素样式 */
@@ -73,15 +80,15 @@
             animation: fadeIn 0.3s;
         }
         .element.empty {
-            background: #f8f9fa;
-            border: 2px dashed #ccc;
-            color: #ccc;
+            background: var(--theme-surface-soft);
+            border: 2px dashed var(--theme-border);
+            color: var(--theme-muted);
         }
         .element .index {
             position: absolute;
             bottom: -25px;
             font-size: 12px;
-            color: #888;
+            color: var(--theme-muted);
         }
         .element.active {
             background: #ffeaa7;
@@ -94,9 +101,9 @@
             margin: 40px auto;
             padding: 20px;
             border-radius: 8px;
-            background: #f9f9f9;
+            background: var(--theme-panel-bg);
             border-left: 5px solid var(--primary);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: var(--theme-shadow);
         }
 
         @keyframes fadeIn {

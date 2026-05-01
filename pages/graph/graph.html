@@ -2,19 +2,22 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graph Visualizer</title>
+    <link rel="stylesheet" href="../theme.css">
+    <script src="../theme-bridge.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #c0392b; /* 图建议用深红色，代表其复杂与核心的地位 */
-            --node-bg: #fff;
-            --text: #2c3e50;
+            --primary: #bf5548;
+            --node-bg: var(--theme-surface);
+            --text: var(--theme-text);
         }
         body {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 30px;
-            background-color: #fdfdfd;
+            background-color: var(--theme-page-bg);
             color: var(--text);
             display: flex;
             flex-direction: column;
@@ -31,9 +34,11 @@
         }
         input {
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--theme-border);
             border-radius: 4px;
             width: 100px;
+            background: var(--theme-surface);
+            color: var(--theme-text);
         }
         button {
             padding: 8px 16px;
@@ -45,17 +50,17 @@
             font-weight: 500;
         }
         button:hover { opacity: 0.85; }
-        button.secondary { background: #95a5a6; }
+        button.secondary { background: var(--theme-muted); }
 
         /* SVG 画布 */
         #graph-canvas {
             width: 100%;
             max-width: 800px;
             height: 500px;
-            border: 2px solid #ddd;
+            border: 2px solid var(--theme-border);
             border-radius: 8px;
-            background: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: var(--theme-surface);
+            box-shadow: var(--theme-shadow);
         }
 
         /* 节点样式 */
@@ -79,7 +84,7 @@
 
         /* 边（连线）样式 */
         .edge-line {
-            stroke: #ccc;
+            stroke: var(--theme-border);
             stroke-width: 2px;
             stroke-dasharray: 5, 5; /* 虚线代表无向图的关系 */
             animation: dashLoop 1s linear infinite;
@@ -91,11 +96,11 @@
         .info-card {
             margin: 40px auto;
             padding: 20px;
-            background: #fdf8f8;
+            background: var(--theme-panel-bg);
             border-radius: 8px;
             border-left: 5px solid var(--primary);
             width: 100%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: var(--theme-shadow);
         }
     </style>
 </head>
